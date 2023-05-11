@@ -1,19 +1,26 @@
 <?php 
 require_once 'koneksi.php';
 
-if(isset($_POST['delete']))
-{
+if (isset($_POST['delete'])) {
     $pengguna_id = $_POST['delete'];
     $query = "DELETE FROM users WHERE id='$pengguna_id'";
     $query_run = mysqli_query($conn, $query);
 
-    if($query_run)
-    {
+    if ($query_run) {
         header('Location: read.php');
-    }
-    else
-    {
+    } else {
         echo 'Failed to delete user.';
+    }
+}
+
+if (isset($_POST['reset'])) {
+    $query = "ALTER TABLE users AUTO_INCREMENT = 1";
+    $query_run = mysqli_query($conn, $query);
+
+    if ($query_run) {
+        header('Location: read.php');
+    } else {
+        echo 'Failed to reset ID.';
     }
 }
 
@@ -36,9 +43,13 @@ if(isset($_POST['delete']))
                 <h4>Data Pengguna
                     <a href="create.php" class="btn btn-primary float-end">Tambah Pengguna</a>
                 </h4>
-
             </div>
             <div class="card-body">
+                <div class="mb-3">
+                    <form method="post" style="display: none;">
+                        <button type="hidden" name="reset" class="btn btn-secondary btn-sm">Reset ID</button>
+                    </form>
+                </div>
                 <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
@@ -56,13 +67,12 @@ if(isset($_POST['delete']))
                             $query = "SELECT * FROM users";
                             $query_run = mysqli_query($conn, $query);
 
-                            if(mysqli_num_rows($query_run) > 0)
-                            {
-                                foreach($query_run as $pengguna)
-                                {
+                            if (mysqli_num_rows($query_run) > 0) {
+                                $counter = 1;
+                                foreach ($query_run as $pengguna) {
                                     ?>
                                     <tr>
-                                        <td><?= $pengguna['id'];?></td>
+                                        <td><?= $counter++; ?></td>
                                         <td>
                                             <a href="detail.php?id=<?= $pengguna['id']; ?>" class="btn btn-primary btn-sm">Detail</a>
                                             <a href="edit.php?id=<?= $pengguna['id']; ?>" class="btn btn-warning btn-sm">Edit</a>
@@ -70,7 +80,7 @@ if(isset($_POST['delete']))
                                                 <button type="submit" name="delete" value="<?= $pengguna['id'];?>" class="btn btn-danger btn-sm">Hapus</button>
                                             </form>
                                         </td>
-                                        <td><img src="uploads/avatar.png" alt="Avatar" width="40"></td>
+                                        <td><img src="uploads/<?php echo $pengguna['avatar']; ?>" alt="Avatar" width="40"></td>
                                         <td><?= $pengguna['name'];?></td>
                                         <td><?= $pengguna['email'];?></td>
                                         <td><?= $pengguna['phone'];?></td>

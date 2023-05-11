@@ -65,7 +65,7 @@ if (isset($_POST['tambah'])) {
                 <a href="read.php" class="btn btn-primary">Kembali</a>
             </div>
         </header>
-        <form class="row g-3" method="post">
+        <form class="row g-3" method="post" enctype="multipart/form-data">
             <div class="col-12">
                 <label for="name" class="form-label">Nama</label>
                 <input type="text" class="form-control" id="name" name="name" placeholder="Nama Lengkap">

@@ -49,7 +49,7 @@ if(isset($_POST['update']))
                 {
                     $pengguna = mysqli_fetch_array($query_run);
                     ?>
-                    <form class="row g-3" method="post">
+                    <form class="row g-3" method="post" enctype="multipart/form-data">
                         <input type="hidden" name="pengguna_id" value="<?= $pengguna['id'] ?>">
 
                         <div class="col-12">
@@ -59,14 +59,16 @@ if(isset($_POST['update']))
                         <div class="col-md-6">
                             <label for="role" class="form-label">Role</label>
                             <select name="role" class="form-control">
-                                <option value="<?= $pengguna['role'] ?>"></option>
-                                <option value="admin">Admin</option>
-                                <option value="staff">Staff</option>
+                                <option value="admin" <?php if ($pengguna['role'] == 'admin') echo 'selected'; ?>>Admin</option>
+                                <option value="staff" <?php if ($pengguna['role'] == 'staff') echo 'selected'; ?>>Staff</option>
                             </select>
                         </div>
                         <div class="col-md-6">
                             <label for="password" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="password" name="password" value="<?= $pengguna['password'] ?>">
+                            <div class="input-group">
+                                <input type="password" class="form-control" id="password" name="password" value="<?= $pengguna['password'] ?>">
+                                <button class="btn btn-outline-secondary" type="button" id="showPassword">Show</button>
+                            </div>
                         </div>
                         <div class="col-md-6">
                             <label for="email" class="form-label">Email</label>
@@ -81,7 +83,7 @@ if(isset($_POST['update']))
                             <input type="text" class="form-control" id="address" name="address" value="<?= $pengguna['address'] ?>" placeholder="Masukkan Alamat Lengkap">
                         </div>
                         <div class="mb-3">
-                            <label for="avatar" class="form-label">Unggah Foto</label>
+                            <label for="avatar" class="form-label">Ganti Foto</label>
                             <input class="form-control" type="file" id="avatar" name="avatar" value="<?= $pengguna['avatar'] ?>">
                         </div>
                         <div class="col-12">
@@ -97,5 +99,18 @@ if(isset($_POST['update']))
             }
             ?>
     </div>
+    <script>
+        document.getElementById("showPassword").addEventListener("click", function () {
+            var passwordInput = document.getElementById("password");
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                this.textContent = "Hide";
+            } else {
+                passwordInput.type = "password";
+                this.textContent = "Show";
+            }
+        });
+    </script>
+
 </body>
 </html>
