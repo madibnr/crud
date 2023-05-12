@@ -2,6 +2,11 @@
 session_start();
 require_once 'koneksi.php';
 
+if(!isset($_SESSION['session_username'])){
+    header("location:login.php");
+    exit();
+}
+
 if(isset($_POST['update']))
 {
     $pengguna_id = $_POST['pengguna_id'];
@@ -84,7 +89,7 @@ if(isset($_POST['update']))
                         </div>
                         <div class="mb-3">
                             <label for="avatar" class="form-label">Ganti Foto</label>
-                            <input class="form-control" type="file" id="avatar" name="avatar" value="<?= $pengguna['avatar'] ?>">
+                            <input class="form-control" type="file" id="avatar" name="avatar" value="<?= isset($pengguna['avatar']) ? $pengguna['avatar'] : '' ?>">
                         </div>
                         <div class="col-12">
                             <button type="submit" id="update" name="update" class="btn btn-primary">Simpan</button>

@@ -1,5 +1,11 @@
 <?php 
+session_start();
 require_once 'koneksi.php';
+
+if(!isset($_SESSION['session_username'])){
+    header("location:login.php");
+    exit();
+}
 
 if (isset($_POST['delete'])) {
     $pengguna_id = $_POST['delete'];
@@ -41,6 +47,7 @@ if (isset($_POST['reset'])) {
         <div class="row">
             <div class="card">
                 <h4>Data Pengguna
+                    <a href="logout.php" class="btn btn-danger float-end">log out</a>
                     <a href="create.php" class="btn btn-primary float-end">Tambah Pengguna</a>
                 </h4>
             </div>
